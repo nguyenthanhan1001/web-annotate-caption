@@ -1,2 +1,5 @@
 # web-annotate-caption
-Django, SQLite
+virtualenv
+django
+sqlite
+

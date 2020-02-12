@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">
+  <b> Yêu cầu</b>  : Viết một câu mô tả nội dung chính của bức hình..
+  <br> <b>Ví dụ</b>: Con mèo đen nằm trên ghế sofa nâu nhìn ra cửa sổ màu xanh lá có rèm màu trắng.
+  <br> <b>Lưu ý</b>:
+  <ol>
+    <li>Cần tập trung vào nội dung chủ đạo và mô tả chi tiết.</li>
+    <li>Liệt kê tối thiểu 4 đối tượng (lọ, laptop, cửa sổ, xe, ...), màu của chúng và hành động nếu có.</li>
+    <li>Độ dài câu mô tả tối thiểu 16 chữ.</li>
+    {% comment %} <li>50VND/câu mô tả</li> {% endcomment %}
+  </ol>
+  </li>
+{% endblock %}
+
+{% block content %}
+  <img src="{{img_url}}" class="rounded mx-auto d-block" style="max-width: 512px; " alt="frame">
+
+  <form method="post" novalidate>
+    <br>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Post</button>
+  </form>
+{% endblock %}
