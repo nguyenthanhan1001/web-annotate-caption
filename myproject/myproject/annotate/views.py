@@ -10,13 +10,16 @@ import random
 
 OUT_DIR = 'static/annotate_caption/'
 FILES = glob.glob('static/images/LSC2020/*/*.jpg')[:13000]
+DICT_URL = {}
+for it in FILES:
+    DICT_URL[os.path.basename(it)] = it
 
 def retreive_no_caption():
     random.shuffle(FILES)
     for it in FILES:
         if not os.path.exists(OUT_DIR+os.path.basename(it)+'.txt'):
-            return os.path.basename(it), it
-    return None, None
+            return os.path.basename(it)
+    return None
 
 def save_caption(img_id, worker, caption):
     with open(os.path.join(OUT_DIR, img_id+'.txt'), 'wt') as f:
@@ -29,16 +32,25 @@ def home(request):
         if form.is_valid():
             caption = form.save(commit=False)
             caption.save()
+
             img_id = caption.img_id
             worker = caption.worker
             cap = caption.caption
             save_caption(img_id, worker, cap)
 
-    img_id, img_url = retreive_no_caption()
-    if img_id != None and img_url != None:
+        else:
+            img_id = form.data['img_id']
+            return render(request, 'caption.html',
+                        {'img_url':DICT_URL[img_id],
+                        'form':form
+            })
+
+
+    img_id = retreive_no_caption()
+    if img_id != None:
         form = NewCaption(initial={'img_id': img_id, 'worker':worker})
         return render(request, 'caption.html',
-                        {'img_url':img_url,
+                        {'img_url':DICT_URL[img_id],
                         'form':form
             })
     else:
