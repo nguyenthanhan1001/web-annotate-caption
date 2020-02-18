@@ -7,6 +7,7 @@ from .forms import NewCaption
 import glob
 import os
 import random
+from collections import Counter
 
 OUT_DIR = 'static/annotate_caption/'
 FILES = glob.glob('static/images/LSC2020/*/*.jpg')[:13000]
@@ -55,4 +56,12 @@ def home(request):
             })
     else:
         return HttpResponse('Task đã hoàn thành. Xin cảm ơn')
+    pass
+
+def count(request):
+    files = glob.glob(OUT_DIR+'/*.txt')
+    count_names = [open(it).readlines()[1].strip() for it in files]
+    dict_count = Counter(count_names)
+    # print(dict_count)
+    return render(request, 'count.html', {'counts': sorted(dict_count.items())})
     pass

@@ -23,6 +23,7 @@ from annotate import views
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
+    url(r'^count/', views.count, name='count'),
     url(r'^admin/', admin.site.urls),
 ]
 
