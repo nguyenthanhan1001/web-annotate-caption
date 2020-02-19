@@ -9,11 +9,11 @@ import os
 import random
 from collections import Counter
 
-OUT_DIR = 'static/annotate_caption/'
-FILES = glob.glob('static/images/LSC2020/*/*.jpg')[:13000]
-DICT_URL = {}
-for it in FILES:
-    DICT_URL[os.path.basename(it)] = it
+OUT_DIR = 'static/results/'
+FILES = glob.glob('static/images/*.jpg')
+# DICT_URL = {}
+# for it in FILES:
+#     DICT_URL[os.path.basename(it)] = it
 
 def retreive_no_caption():
     random.shuffle(FILES)
@@ -42,7 +42,7 @@ def home(request):
         else:
             img_id = form.data['img_id']
             return render(request, 'caption.html',
-                        {'img_url':DICT_URL[img_id],
+                        {'img_url':'static/images/'+img_id,    #'img_url':DICT_URL[img_id],
                         'form':form
             })
 
@@ -51,7 +51,7 @@ def home(request):
     if img_id != None:
         form = NewCaption(initial={'img_id': img_id, 'worker':worker})
         return render(request, 'caption.html',
-                        {'img_url':DICT_URL[img_id],
+                        {'img_url':'static/images/'+img_id,    #'img_url':DICT_URL[img_id],
                         'form':form
             })
     else:
